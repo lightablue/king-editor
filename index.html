@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>King Editor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta charset="utf-8"><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
+</head>
+<body>
+
+<input type="file" id="file-input" />
+
+<div id="aceEditor"></div>
+<script type="text/javascript">
+function readSingleFile(e) {
+  const file = e.target.files[0];
+  if (!file) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    displayContents(e.target.result);
+  };
+  reader.readAsText(file);
+}
+
+function displayContents(contents) {
+  const editor = ace.edit("aceEditor");
+  editor.setReadOnly(true);
+  editor.setTheme("ace/theme/solarized_light");
+  editor.getSession().setMode("ace/mode/html");
+  editor.setFontSize("15px") ;
+  editor.setPrintMarginColumn(false);
+  editor.setValue(contents);
+  editor.setOptions({
+    maxLines: 30
+  });
+}
+
+document.getElementById('file-input')
+  .addEventListener('change', readSingleFile, false);
+</script>
+</body>
+</html>
